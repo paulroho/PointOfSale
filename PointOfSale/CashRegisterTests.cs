@@ -13,11 +13,11 @@ namespace PointOfSale
 			// Arrange
 			cashRegister.RegisterProduct("mybarcode", 123.45m);
 
-			cashRegister.ProductSuccessfullyScanned += price =>
+			cashRegister.ProductSuccessfullyScanned += (_, e) =>
 			{
 				eventOccured = true;
 				// Assert
-				Assert.Equal(123.45m, price);
+				Assert.Equal(123.45m, e.Price);
 			};
 
 			// Act

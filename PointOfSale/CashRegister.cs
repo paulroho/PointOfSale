@@ -8,10 +8,20 @@ namespace PointOfSale
 		{
 		}
 
-		public event Action<decimal> ProductSuccessfullyScanned;
+		public event EventHandler<ProductEventArgs> ProductSuccessfullyScanned;
 
 		public void Scan(string barcode)
 		{
 		}
+	}
+
+	public class ProductEventArgs : EventArgs
+	{
+		public ProductEventArgs(decimal price)
+		{
+			Price = price;
+		}
+
+		public decimal Price { get; }
 	}
 }
