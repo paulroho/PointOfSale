@@ -5,18 +5,24 @@ namespace PointOfSale
 {
 	public class CashRegisterTests
 	{
+		private readonly CashRegister _cashRegister;
+
+		public CashRegisterTests()
+		{
+			this._cashRegister = new CashRegister();
+		}
+
 		[Fact]
 		public void SellOneRegisteredItem()
 		{
-			var cashRegister = new CashRegister();
 
 			// Arrange
-			cashRegister.RegisterProduct("mybarcode", 123.45m);
+			_cashRegister.RegisterProduct("mybarcode", 123.45m);
 
-			using (var monitoredCashRegister = cashRegister.Monitor())
+			using (var monitoredCashRegister = _cashRegister.Monitor())
 			{
 				// Act
-				cashRegister.Scan("mybarcode");
+				_cashRegister.Scan("mybarcode");
 
 				// Assert
 				monitoredCashRegister.Should()
@@ -28,12 +34,10 @@ namespace PointOfSale
 		[Fact]
 		public void DoesntSellNonRegisteredItem()
 		{
-			var cashRegister = new CashRegister();
-
-			using (var monitoredCashRegister = cashRegister.Monitor())
+			using (var monitoredCashRegister = _cashRegister.Monitor())
 			{
 				// Act
-				cashRegister.Scan("anotherbarcode");
+				_cashRegister.Scan("anotherbarcode");
 
 				// Assert
 				monitoredCashRegister.Should()
