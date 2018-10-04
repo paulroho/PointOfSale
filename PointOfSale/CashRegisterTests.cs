@@ -27,7 +27,7 @@ namespace PointOfSale
 				// Assert
 				monitoredCashRegister.Should()
 					.Raise(nameof(CashRegister.ProductSuccessfullyScanned))
-					.WithArgs<ProductEventArgs>(e => e.Price == 123.45m);
+					.WithArgs<ProductEventArgs>(e => e.Product.Price == 123.45m);
 			}
 		}
 

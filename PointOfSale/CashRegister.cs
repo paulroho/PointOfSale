@@ -17,7 +17,7 @@ namespace PointOfSale
 		{
 			if (_product?.Barcode == barcode)
 			{
-				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(_product.Price));
+				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(_product));
 			}
 		}
 	}

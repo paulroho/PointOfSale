@@ -4,11 +4,11 @@ namespace PointOfSale
 {
 	public class ProductEventArgs : EventArgs
 	{
-		public ProductEventArgs(decimal price)
+		public ProductEventArgs(Product product)
 		{
-			Price = price;
+			Product = product;
 		}
 
-		public decimal Price { get; }
+		public Product Product { get; }
 	}
 }
