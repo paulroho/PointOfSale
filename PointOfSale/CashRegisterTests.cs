@@ -5,21 +5,21 @@ namespace PointOfSale
 	public class CashRegisterTests
 	{
 		[Fact]
-		public void IDONTKNOWYET()
+		public void SellOneRegisteredItem()
 		{
-			CashRegister register;
+			CashRegister cashRegister = null;
 
 			// Arrange
-			register.RegisterProduct("mybarcode", 123.45m);
+			cashRegister.RegisterProduct("mybarcode", 123.45m);
 
-			register.ProductSuccessfullyScanned += price =>
+			cashRegister.ProductSuccessfullyScanned += price =>
 			{
 				// Assert
-				return Assert.Equal(123.45m, price);
+				Assert.Equal(123.45m, price);
 			};
 
 			// Act
-			register.Scan("mybarcode");
+			cashRegister.Scan("mybarcode");
 		}
 	}
 }
