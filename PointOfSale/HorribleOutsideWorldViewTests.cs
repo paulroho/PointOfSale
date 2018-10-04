@@ -13,6 +13,7 @@ namespace PointOfSale
 			// barcode send to stdin
 
 			// expect price on stdout
+			Assert.True(false, "WIP");
 		}
 	}
 }
