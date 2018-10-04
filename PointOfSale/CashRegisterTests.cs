@@ -9,23 +9,20 @@ namespace PointOfSale
 		public void SellOneRegisteredItem()
 		{
 			var cashRegister = new CashRegister();
-			var eventOccured = false;
 
 			// Arrange
 			cashRegister.RegisterProduct("mybarcode", 123.45m);
 
-			cashRegister.ProductSuccessfullyScanned += (_, e) =>
+			using (var monitoredCashRegister = cashRegister.Monitor())
 			{
-				eventOccured = true;
+				// Act
+				cashRegister.Scan("mybarcode");
+
 				// Assert
-				e.Price.Should().Be(123.45m);
-			};
-
-			// Act
-			cashRegister.Scan("mybarcode");
-
-			// Assert
-			eventOccured.Should().BeTrue();
+				monitoredCashRegister.Should()
+					.Raise(nameof(CashRegister.ProductSuccessfullyScanned))
+					.WithArgs<ProductEventArgs>(e => e.Price == 123.45m);
+			}
 		}
 	}
 }
