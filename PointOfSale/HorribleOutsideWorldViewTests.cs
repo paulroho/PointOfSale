@@ -4,7 +4,7 @@ namespace PointOfSale
 {
 	public class HorribleOutsideWorldViewTests
 	{
-		[Fact]
+		// [Fact]
 		public void BarcodeInSomeTextOut()
 		{
 			// launch cash register process
