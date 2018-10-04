@@ -4,15 +4,18 @@ namespace PointOfSale
 {
 	public class CashRegister
 	{
+		private decimal _price;
+
 		public void RegisterProduct(string barcode, decimal price)
 		{
+			_price = price;
 		}
 
 		public event EventHandler<ProductEventArgs> ProductSuccessfullyScanned;
 
 		public void Scan(string barcode)
 		{
-			ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(123.45m));
+			ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(_price));
 		}
 	}
 

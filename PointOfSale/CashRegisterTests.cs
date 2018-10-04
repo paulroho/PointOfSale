@@ -10,6 +10,9 @@ namespace PointOfSale
 		{
 			var cashRegister = new CashRegister();
 
+			// Arrange
+			cashRegister.RegisterProduct("mybarcode", 123.45m);
+
 			using (var monitoredCashRegister = cashRegister.Monitor())
 			{
 				// Act
