@@ -12,6 +12,7 @@ namespace PointOfSale
 
 		public void Scan(string barcode)
 		{
+			ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(123.45m));
 		}
 	}
 
