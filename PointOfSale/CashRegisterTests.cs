@@ -17,7 +17,7 @@ namespace PointOfSale
 		{
 
 			// Arrange
-			_cashRegister.RegisterProduct("mybarcode", 123.45m);
+			_cashRegister.RegisterProduct(new Product("mybarcode", 123.45m));
 
 			using (var monitoredCashRegister = _cashRegister.Monitor())
 			{
