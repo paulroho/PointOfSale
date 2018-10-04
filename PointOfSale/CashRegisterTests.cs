@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Xunit;
 
 namespace PointOfSale
@@ -17,14 +18,14 @@ namespace PointOfSale
 			{
 				eventOccured = true;
 				// Assert
-				Assert.Equal(123.45m, e.Price);
+				e.Price.Should().Be(123.45m);
 			};
 
 			// Act
 			cashRegister.Scan("mybarcode");
 
 			// Assert
-			Assert.True(eventOccured, $"The event {nameof(CashRegister.ProductSuccessfullyScanned)} has not occured.");
+			eventOccured.Should().BeTrue();
 		}
 	}
 }
