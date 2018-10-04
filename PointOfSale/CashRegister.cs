@@ -15,7 +15,10 @@ namespace PointOfSale
 
 		public void Scan(string barcode)
 		{
-			ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(_price));
+			if (barcode.Equals("mybarcode"))
+			{
+				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(_price));
+			}
 		}
 	}
 
