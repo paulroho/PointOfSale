@@ -1,6 +1,6 @@
 namespace PointOfSale
 {
-	public class Inventory
+	public class Inventory : IProductFinder
 	{
 		private Product _product;
 
