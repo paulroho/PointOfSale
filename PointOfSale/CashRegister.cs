@@ -4,38 +4,22 @@ namespace PointOfSale
 {
 	public class CashRegister
 	{
-		private Product _product;
+		private readonly Inventory _inventory = new Inventory();
 
 		public void RegisterProduct(Product product)
 		{
-			_product = product;
+			_inventory.RegisterProduct(product);
 		}
 
 		public event EventHandler<ProductEventArgs> ProductSuccessfullyScanned;
 
 		public void Scan(string barcode)
 		{
-			var product = FindProduct(barcode);
+			var product = _inventory.FindProduct(barcode);
 			if (product != null)
 			{
 				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(product));
 			}
-
-		}
-
-		private Product FindProduct(string barcode)
-		{
-			if (ProductExists(barcode))
-			{
-				return _product;
-			}
-
-			return null;
-		}
-
-		private bool ProductExists(string barcode)
-		{
-			return _product?.Barcode == barcode;
 		}
 	}
 }
