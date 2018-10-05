@@ -1,15 +1,24 @@
+using System;
 using FluentAssertions;
+using FluentAssertions.Events;
 using Xunit;
 
 namespace PointOfSale
 {
-	public class CashRegisterTests
+	public class CashRegisterTests : IDisposable
 	{
 		private readonly CashRegister _cashRegister;
+		private readonly IMonitor<CashRegister> _monitoredCashRegister;
 
 		public CashRegisterTests()
 		{
 			this._cashRegister = new CashRegister();
+			_monitoredCashRegister = _cashRegister.Monitor();
+		}
+
+		public void Dispose()
+		{
+			_monitoredCashRegister.Dispose();
 		}
 
 		[Fact]
@@ -19,30 +28,24 @@ namespace PointOfSale
 			// Arrange
 			_cashRegister.RegisterProduct(new Product("mybarcode", 123.45m));
 
-			using (var monitoredCashRegister = _cashRegister.Monitor())
-			{
-				// Act
-				_cashRegister.Scan("mybarcode");
+			// Act
+			_cashRegister.Scan("mybarcode");
 
-				// Assert
-				monitoredCashRegister.Should()
-					.Raise(nameof(CashRegister.ProductSuccessfullyScanned))
-					.WithArgs<ProductEventArgs>(e => e.Product.Price == 123.45m);
-			}
+			// Assert
+			_monitoredCashRegister.Should()
+				.Raise(nameof(CashRegister.ProductSuccessfullyScanned))
+				.WithArgs<ProductEventArgs>(e => e.Product.Price == 123.45m);
 		}
 
 		[Fact]
 		public void DoesntSellNonRegisteredItem()
 		{
-			using (var monitoredCashRegister = _cashRegister.Monitor())
-			{
-				// Act
-				_cashRegister.Scan("anotherbarcode");
+			// Act
+			_cashRegister.Scan("anotherbarcode");
 
-				// Assert
-				monitoredCashRegister.Should()
-					.NotRaise(nameof(CashRegister.ProductSuccessfullyScanned));
-			}
+			// Assert
+			_monitoredCashRegister.Should()
+				.NotRaise(nameof(CashRegister.ProductSuccessfullyScanned));
 		}
 	}
 }
