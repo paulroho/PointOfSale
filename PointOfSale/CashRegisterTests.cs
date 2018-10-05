@@ -12,7 +12,7 @@ namespace PointOfSale
 
 		public CashRegisterTests()
 		{
-			this._cashRegister = new CashRegister();
+			_cashRegister = new CashRegister(new Inventory());
 			_monitoredCashRegister = _cashRegister.Monitor();
 		}
 
