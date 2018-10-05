@@ -24,14 +24,12 @@ namespace PointOfSale
 		[Fact]
 		public void SellOneRegisteredItem()
 		{
-			// Arrange
 			var product = new Product("mybarcode", 123.45m);
 			_cashRegister.RegisterProduct(product);
 
 			// Act
 			_cashRegister.Scan("mybarcode");
 
-			// Assert
 			AssertProductSuccessfullyScanned(product);
 		}
 
@@ -41,7 +39,6 @@ namespace PointOfSale
 			// Act
 			_cashRegister.Scan("anotherbarcode");
 
-			// Assert
 			AssertProductNotSuccessfullyScanned();
 		}
 
