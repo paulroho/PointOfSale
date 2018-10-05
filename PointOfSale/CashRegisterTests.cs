@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using FluentAssertions.Events;
+using Moq;
 using Xunit;
 
 namespace PointOfSale
@@ -9,11 +10,11 @@ namespace PointOfSale
 	{
 		private readonly CashRegister _cashRegister;
 		private readonly IMonitor<CashRegister> _monitoredCashRegister;
-		private readonly Inventory _inventory = new Inventory();
+		private readonly Mock<IProductFinder> _productFinderMock = new Mock<IProductFinder>();
 
 		public CashRegisterTests()
 		{
-			_cashRegister = new CashRegister(_inventory);
+			_cashRegister = new CashRegister(_productFinderMock.Object);
 			_monitoredCashRegister = _cashRegister.Monitor();
 		}
 
@@ -26,7 +27,7 @@ namespace PointOfSale
 		public void ScanOneRegisteredItem()
 		{
 			var product = new Product("mybarcode", 123.45m);
-			_inventory.RegisterProduct(product);
+			_productFinderMock.Setup(finder => finder.FindProduct("mybarcode")).Returns(product);
 
 			// Act
 			_cashRegister.Scan("mybarcode");
