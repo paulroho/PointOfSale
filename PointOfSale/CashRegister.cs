@@ -4,18 +4,18 @@ namespace PointOfSale
 {
 	public class CashRegister
 	{
-		private readonly Inventory _inventory;
+		private readonly IProductFinder _productFinder;
 
-		public CashRegister(Inventory inventory)
+		public CashRegister(IProductFinder productFinder)
 		{
-			_inventory = inventory;
+			_productFinder = productFinder;
 		}
 
 		public event EventHandler<ProductEventArgs> ProductSuccessfullyScanned;
 
 		public void Scan(string barcode)
 		{
-			var product = _inventory.FindProduct(barcode);
+			var product = _productFinder.FindProduct(barcode);
 			if (product != null)
 			{
 				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(product));
