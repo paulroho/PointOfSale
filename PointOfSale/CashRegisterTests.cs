@@ -24,17 +24,15 @@ namespace PointOfSale
 		[Fact]
 		public void SellOneRegisteredItem()
 		{
-
 			// Arrange
-			_cashRegister.RegisterProduct(new Product("mybarcode", 123.45m));
+			var product = new Product("mybarcode", 123.45m);
+			_cashRegister.RegisterProduct(product);
 
 			// Act
 			_cashRegister.Scan("mybarcode");
 
 			// Assert
-			_monitoredCashRegister.Should()
-				.Raise(nameof(CashRegister.ProductSuccessfullyScanned))
-				.WithArgs<ProductEventArgs>(e => e.Product.Price == 123.45m);
+			AssertProductSuccessfullyScanned(product);
 		}
 
 		[Fact]
@@ -44,6 +42,18 @@ namespace PointOfSale
 			_cashRegister.Scan("anotherbarcode");
 
 			// Assert
+			AssertProductNotSuccessfullyScanned();
+		}
+
+		private void AssertProductSuccessfullyScanned(Product expectedProduct)
+		{
+			_monitoredCashRegister.Should()
+				.Raise(nameof(CashRegister.ProductSuccessfullyScanned))
+				.WithArgs<ProductEventArgs>(e => e.Product.Price == expectedProduct.Price);
+		}
+
+		private void AssertProductNotSuccessfullyScanned()
+		{
 			_monitoredCashRegister.Should()
 				.NotRaise(nameof(CashRegister.ProductSuccessfullyScanned));
 		}
