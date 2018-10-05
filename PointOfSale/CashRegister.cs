@@ -15,10 +15,27 @@ namespace PointOfSale
 
 		public void Scan(string barcode)
 		{
-			if (_product?.Barcode == barcode)
+			var product = FindProduct(barcode);
+			if (product != null)
 			{
-				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(_product));
+				ProductSuccessfullyScanned?.Invoke(this, new ProductEventArgs(product));
 			}
+
+		}
+
+		private Product FindProduct(string barcode)
+		{
+			if (ProductExists(barcode))
+			{
+				return _product;
+			}
+
+			return null;
+		}
+
+		private bool ProductExists(string barcode)
+		{
+			return _product?.Barcode == barcode;
 		}
 	}
 }
