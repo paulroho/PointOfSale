@@ -9,10 +9,11 @@ namespace PointOfSale
 	{
 		private readonly CashRegister _cashRegister;
 		private readonly IMonitor<CashRegister> _monitoredCashRegister;
+		private readonly Inventory _inventory = new Inventory();
 
 		public CashRegisterTests()
 		{
-			_cashRegister = new CashRegister(new Inventory());
+			_cashRegister = new CashRegister(_inventory);
 			_monitoredCashRegister = _cashRegister.Monitor();
 		}
 
@@ -25,7 +26,7 @@ namespace PointOfSale
 		public void ScanOneRegisteredItem()
 		{
 			var product = new Product("mybarcode", 123.45m);
-			_cashRegister.RegisterProduct(product);
+			_inventory.RegisterProduct(product);
 
 			// Act
 			_cashRegister.Scan("mybarcode");

@@ -11,11 +11,6 @@ namespace PointOfSale
 			_inventory = inventory;
 		}
 
-		public void RegisterProduct(Product product)
-		{
-			_inventory.RegisterProduct(product);
-		}
-
 		public event EventHandler<ProductEventArgs> ProductSuccessfullyScanned;
 
 		public void Scan(string barcode)
