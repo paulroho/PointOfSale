@@ -36,6 +36,22 @@ namespace PointOfSale
 		}
 
 		[Fact]
+		public void ScanTwoRegisteredItems()
+		{
+			var productOne = new Product("1st Barcode", 123.45m);
+			_productFinderMock.Setup(finder => finder.FindProduct("1st Barcode")).Returns(productOne);
+			var productTwo = new Product("2nd Barcode", 234.56m);
+			_productFinderMock.Setup(finder => finder.FindProduct("2nd Barcode")).Returns(productTwo);
+
+			// Act
+			_cashRegister.Scan("1st Barcode");
+			AssertProductSuccessfullyScanned(productOne);
+
+			_cashRegister.Scan("2nd Barcode");
+			AssertProductSuccessfullyScanned(productTwo);
+		}
+
+		[Fact]
 		public void ScanNotRegisteredItem()
 		{
 			// Act
